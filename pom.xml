@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>indi.yuluo</groupId>
+	<artifactId>microservice-governance-routing</artifactId>
+	<version>${revision}</version>
+	<packaging>pom</packaging>
+	<name>MicroService Governance Routing</name>
+	<description>MicroService Governance Routing</description>
+
+	<parent>
+		<groupId>org.springframework.cloud</groupId>
+		<artifactId>spring-cloud-build</artifactId>
+		<version>2.3.5.RELEASE</version>
+		<relativePath/>
+	</parent>
+
+	<developers>
+		<developer>
+			<name>yuluo</name>
+			<email>yuluo08290126@gmail.com</email>
+		</developer>
+	</developers>
+
+	<properties>
+		<!-- Project revision -->
+		<revision>2023.10.14</revision>
+
+		<!-- Spring Cloud -->
+		<spring.cloud.version>Hoxton.SR12</spring.cloud.version>
+
+		<!-- Spring Cloud Alibaba  -->
+		<spring.cloud.alibaba.version>2.2.10-RC1</spring.cloud.alibaba.version>
+
+		<!-- Maven Plugin Versions -->
+		<maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
+		<maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
+		<maven-surefire-plugin.version>2.21.0</maven-surefire-plugin.version>
+		<maven-source-plugin.version>2.2.1</maven-source-plugin.version>
+	</properties>
+
+	<modules>
+		<module>governance-routing-dependencies</module>
+		<module>governance-routing-docs</module>
+		<module>governance-routing-examples</module>
+		<module>governance-routing-starters</module>
+		<module>governance-routing-starters/governance-routing-common</module>
+		<module>governance-routing-starters/governance-routing-gateway-adapter</module>
+		<module>governance-routing-starters/governance-routing-service-adapter</module>
+		<module>governance-routing-starters/governanace-routing-xds-adapter</module>
+	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- Spring Dependencies -->
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>${spring-boot.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring.cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>com.alibaba.cloud</groupId>
+				<artifactId>spring-cloud-alibaba-dependencies</artifactId>
+				<version>${spring.cloud.alibaba.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>indi.yuluo</groupId>
+				<artifactId>governance-routing-dependencies</artifactId>
+				<version>${project.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven-compiler-plugin.version}</version>
+				<inherited>true</inherited>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+					<parameters>true</parameters>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven-surefire-plugin.version}</version>
+				<inherited>true</inherited>
+				<configuration>
+					<forkCount>1</forkCount>
+					<reuseForks>false</reuseForks>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>release</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+						<version>${maven-source-plugin.version}</version>
+						<executions>
+							<execution>
+								<phase>package</phase>
+								<goals>
+									<goal>jar-no-fork</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+
+</project>
