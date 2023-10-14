@@ -13,7 +13,15 @@
 
 	<artifactId>governance-routing-examples</artifactId>
 	<packaging>pom</packaging>
+	<version>${revision}</version>
 	<name>MicroService Governance Routing Examples</name>
 	<description>MicroService Governance Routing Examples</description>
+
+	<modules>
+		<module>gateway-consumer-example</module>
+		<module>governance-routing-example-common</module>
+		<module>routing-service-provider-example</module>
+		<module>web-client-consumer-example</module>
+	</modules>
 
 </project>

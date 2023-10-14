@@ -51,6 +51,7 @@
 		<module>governance-routing-starters/governance-routing-gateway-adapter</module>
 		<module>governance-routing-starters/governance-routing-service-adapter</module>
 		<module>governance-routing-starters/governanace-routing-xds-adapter</module>
+		<module>governance-routing-docker</module>
 	</modules>
 
 	<dependencyManagement>

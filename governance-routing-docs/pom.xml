@@ -13,6 +13,7 @@
 
 	<artifactId>governance-routing-docs</artifactId>
 	<packaging>pom</packaging>
+	<version>${revision}</version>
 	<name>MicroService Governance Routing Docs</name>
 	<description>MicroService Governance Routing Docs</description>
 

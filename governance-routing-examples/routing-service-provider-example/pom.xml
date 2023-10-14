@@ -6,19 +6,14 @@
 
 	<parent>
 		<groupId>indi.yuluo</groupId>
-		<artifactId>microservice-governance-routing</artifactId>
+		<artifactId>governance-routing-examples</artifactId>
 		<version>${revision}</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<packaging>pom</packaging>
+	<name>Governance Routing Example Routing Service Provider Module</name>
+	<packaging>jar</packaging>
 	<version>${revision}</version>
-	<name>MicroService Governance Routing Starters</name>
-	<description>MicroService Governance Routing Starters</description>
-	<artifactId>governance-routing-starters</artifactId>
-
-	<modules>
-		<module>governance-routing-sdk-starter</module>
-	</modules>
+	<artifactId>routing-service-provider-example</artifactId>
 
 </project>

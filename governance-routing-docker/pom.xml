@@ -11,14 +11,9 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<packaging>pom</packaging>
+	<name>MicroService Governance Routing Docker</name>
+	<description>MicroService Governance Docker</description>
 	<version>${revision}</version>
-	<name>MicroService Governance Routing Starters</name>
-	<description>MicroService Governance Routing Starters</description>
-	<artifactId>governance-routing-starters</artifactId>
-
-	<modules>
-		<module>governance-routing-sdk-starter</module>
-	</modules>
+	<artifactId>governance-routing-docker</artifactId>
 
 </project>

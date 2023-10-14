@@ -1,0 +1,12 @@
+FROM openjdk:8-jdk-alpine as builder
+
+LABEL author="yuluo" \
+	email="yuluo08290126@gmail.com"
+
+ARG APP_HOME
+
+VOLUME ${APP_HOME}
+
+WORKDIR ${APP_HOME}
+
+ENTRYPOINT ["java", "-jar", "app.jar", "-Dspring.profiles.active=docker"]
