@@ -3,14 +3,15 @@
 		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
 	<parent>
 		<groupId>indi.yuluo</groupId>
 		<artifactId>governance-routing-examples</artifactId>
-		<version>2023.10.14</version>
+		<version>${revision}</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<artifactId>governance-istio-consumer-example</artifactId>
-
 	<name>Governance Routing Istio Label Routing Consumer Example</name>
 	<description>Example demonstrating how to use Istio label routing consumer</description>
 	<packaging>jar</packaging>
