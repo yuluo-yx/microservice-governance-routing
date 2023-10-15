@@ -22,6 +22,7 @@
 		<module>governance-routing-example-common</module>
 		<module>routing-service-provider-example</module>
 		<module>web-client-consumer-example</module>
+		<module>governance-istio-consumer-example</module>
 	</modules>
 
 </project>
