@@ -12,8 +12,46 @@
 	</parent>
 
 	<name>Governance Routing Example WebClient Consumer Example Module</name>
-	<packaging>jar</packaging>
+	<packaging>pom</packaging>
 	<version>${revision}</version>
 	<artifactId>web-client-consumer-example</artifactId>
+
+	<modules>
+		<module>openfeign-consumer-example</module>
+		<module>restTemplate-consumer-example</module>
+		<module>webClient-consumer-example</module>
+	</modules>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.alibaba.cloud</groupId>
+			<artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>indi.yuluo</groupId>
+			<artifactId>governance-routing-service-adapter</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>indi.yuluo</groupId>
+			<artifactId>governance-routing-example-common</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webflux</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+		</dependency>
+	</dependencies>
 
 </project>

@@ -16,4 +16,40 @@
 	<version>${revision}</version>
 	<artifactId>routing-service-provider-example</artifactId>
 
+	<dependencies>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.alibaba.cloud</groupId>
+			<artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>indi.yuluo</groupId>
+			<artifactId>governance-routing-example-common</artifactId>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>indi.yuluo.governance.examples.A1ProviderApplication</mainClass>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
 </project>
