@@ -1,0 +1,40 @@
+{
+  "properties": [
+    {
+      "name": "indi.yuluo.governance.routing.rule",
+      "type": "java.lang.String",
+      "defaultValue": "ZoneAvoidanceRule",
+      "description": "LoadBalance rule for label routing, the following values are included: RoundRobinRule, RandomRule, WeightedResponseTimeRule, BestAvailableRule, RetryRule, ZoneAvoidanceRule, AvailabilityFilteringRule."
+    },
+    {
+      "name": "indi.yuluo.governance.routing.zone.affinity.enabled",
+      "type": "java.lang.Boolean",
+      "defaultValue": true,
+      "description": "Whether strategy zone avoidance rul is enabled."
+    },
+    {
+      "name": "indi.yuluo.governance.routing.feign.core.header.transmission.enabled",
+      "type": "java.lang.Boolean",
+      "defaultValue": true,
+      "description": "Whether strategy feign core header transmission is enabled."
+    },
+    {
+      "name": "indi.yuluo.governance.routing.rest.core.header.transmission.enabled",
+      "type": "java.lang.Boolean",
+      "defaultValue": true,
+      "description": "Whether strategy rest template core header transmission is enabled."
+    },
+    {
+      "name": "indi.yuluo.governance.routing.web.client.core.header.transmission.enabled",
+      "type": "java.lang.Boolean",
+      "defaultValue": true,
+      "description": "Whether strategy web client core header transmission is enabled."
+    },
+    {
+      "name": "indi.yuluo.governance.routing.service.header.priority",
+      "type": "java.lang.Boolean",
+      "defaultValue": true,
+      "description": "Whether strategy service header priority is enabled."
+    }
+  ]
+}

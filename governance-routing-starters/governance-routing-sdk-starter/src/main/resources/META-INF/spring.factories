@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  indi.yuluo.governance.routing.configuration.LabelRoutingAutoConfiguration,\
+  indi.yuluo.governance.routing.configuration.LabelPropertiesAutoConfiguration

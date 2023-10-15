@@ -13,6 +13,20 @@
 
 	<name>MicroService Governance Routing Common</name>
 	<description>MicroService Governance Routing Common</description>
+	<dependencies>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
+	</dependencies>
 	<version>${revision}</version>
 	<artifactId>governance-routing-common</artifactId>
 
