@@ -23,14 +23,14 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.alibaba.cloud.commons.lang.StringUtils;
+import com.google.protobuf.InvalidProtocolBufferException;
+import indi.yuluo.governance.commons.lang.StringUtils;
 import indi.yuluo.governance.istio.XdsChannel;
 import indi.yuluo.governance.istio.XdsConfigProperties;
 import indi.yuluo.governance.istio.XdsScheduledThreadPool;
 import indi.yuluo.governance.istio.constant.IstioConstants;
 import indi.yuluo.governance.istio.filter.XdsResolveFilter;
 import indi.yuluo.governance.istio.protocol.AbstractXdsProtocol;
-import com.google.protobuf.InvalidProtocolBufferException;
 import io.envoyproxy.envoy.config.listener.v3.Filter;
 import io.envoyproxy.envoy.config.listener.v3.Listener;
 import io.envoyproxy.envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager;
@@ -38,13 +38,10 @@ import io.envoyproxy.envoy.extensions.filters.network.http_connection_manager.v3
 import io.envoyproxy.envoy.service.discovery.v3.DiscoveryResponse;
 
 /**
- * LdsProtocol contains the authentication configuration and other configuration about
- * security.
- *
- * @author musi
- * @author <a href="liuziming@buaa.edu.cn"></a>
- * @since 2.2.10-RC1
+ * @author yuluo
+ * @author <a href="1481556636@qq.com"></a>
  */
+
 public class LdsProtocol extends AbstractXdsProtocol<Listener> {
 
 	public LdsProtocol(XdsChannel xdsChannel,

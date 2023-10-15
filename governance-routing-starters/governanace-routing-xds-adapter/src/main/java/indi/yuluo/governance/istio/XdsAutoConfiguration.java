@@ -18,7 +18,7 @@ package indi.yuluo.governance.istio;
 
 import java.util.List;
 
-import com.alibaba.cloud.commons.governance.event.GovernanceEvent;
+import indi.yuluo.governance.commons.governance.event.GovernanceEvent;
 import indi.yuluo.governance.istio.filter.XdsResolveFilter;
 import indi.yuluo.governance.istio.filter.impl.AuthXdsResolveFilter;
 import indi.yuluo.governance.istio.filter.impl.RoutingXdsResolveFilter;
@@ -40,10 +40,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @author musi
- * @author <a href="liuziming@buaa.edu.cn"></a>
- * @since 2.2.10-RC1
+ * @author yuluo
+ * @author <a href="1481556636@qq.com"></a>
  */
+
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnProperty(name = "spring.cloud.istio.config.enabled", matchIfMissing = true)
 @EnableConfigurationProperties(XdsConfigProperties.class)

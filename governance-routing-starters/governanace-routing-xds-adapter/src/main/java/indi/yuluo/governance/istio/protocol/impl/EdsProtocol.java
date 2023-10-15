@@ -28,12 +28,10 @@ import io.envoyproxy.envoy.config.endpoint.v3.ClusterLoadAssignment;
 import io.envoyproxy.envoy.service.discovery.v3.DiscoveryResponse;
 
 /**
- * TODO: Fetch all endpoints in EdsProtocol.
- *
- * @author musi
- * @author <a href="liuziming@buaa.edu.cn"></a>
- * @since 2.2.10-RC1
+ * @author yuluo
+ * @author <a href="1481556636@qq.com"></a>
  */
+
 public class EdsProtocol extends AbstractXdsProtocol<ClusterLoadAssignment> {
 
 	public EdsProtocol(XdsChannel xdsChannel,

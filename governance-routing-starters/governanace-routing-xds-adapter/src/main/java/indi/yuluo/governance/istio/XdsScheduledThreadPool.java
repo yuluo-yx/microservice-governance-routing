@@ -19,10 +19,10 @@ package indi.yuluo.governance.istio;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 /**
- * @author musi
- * @author <a href="liuziming@buaa.edu.cn"></a>
- * @since 2.2.10-RC1
+ * @author yuluo
+ * @author <a href="1481556636@qq.com"></a>
  */
+
 public class XdsScheduledThreadPool extends ScheduledThreadPoolExecutor {
 
 	public XdsScheduledThreadPool(XdsConfigProperties xdsConfigProperties) {

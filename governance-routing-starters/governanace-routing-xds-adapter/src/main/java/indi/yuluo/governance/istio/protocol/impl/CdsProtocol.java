@@ -30,12 +30,10 @@ import io.envoyproxy.envoy.config.cluster.v3.Cluster;
 import io.envoyproxy.envoy.service.discovery.v3.DiscoveryResponse;
 
 /**
- * CdsProtocol contains information about service.
- *
- * @author musi
- * @author <a href="liuziming@buaa.edu.cn"></a>
- * @since 2.2.10-RC1
+ * @author yuluo
+ * @author <a href="1481556636@qq.com"></a>
  */
+
 public class CdsProtocol extends AbstractXdsProtocol<Cluster> {
 
 	public CdsProtocol(XdsChannel xdsChannel,

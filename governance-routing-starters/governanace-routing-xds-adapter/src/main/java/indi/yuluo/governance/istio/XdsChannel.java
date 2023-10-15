@@ -20,8 +20,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-import com.alibaba.cloud.commons.io.FileUtils;
-import com.alibaba.cloud.commons.lang.StringUtils;
+import indi.yuluo.governance.commons.io.FileUtils;
+import indi.yuluo.governance.commons.lang.StringUtils;
 import indi.yuluo.governance.istio.constant.IstioConstants;
 import io.envoyproxy.envoy.service.discovery.v3.AggregatedDiscoveryServiceGrpc;
 import io.envoyproxy.envoy.service.discovery.v3.DiscoveryRequest;
@@ -39,10 +39,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author musi
- * @author <a href="liuziming@buaa.edu.cn"></a>
- * @since 2.2.10-RC1
+ * @author yuluo
+ * @author <a href="1481556636@qq.com"></a>
  */
+
 public class XdsChannel implements AutoCloseable {
 
 	private static final Logger log = LoggerFactory.getLogger(XdsChannel.class);

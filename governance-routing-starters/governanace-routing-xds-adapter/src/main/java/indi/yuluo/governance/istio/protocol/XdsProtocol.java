@@ -21,10 +21,10 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 /**
- * @author musi
- * @author <a href="liuziming@buaa.edu.cn"></a>
- * @since 2.2.10-RC1
+ * @author yuluo
+ * @author <a href="1481556636@qq.com"></a>
  */
+
 public interface XdsProtocol<T> {
 
 	List<T> getResource(Set<String> resourceNames);

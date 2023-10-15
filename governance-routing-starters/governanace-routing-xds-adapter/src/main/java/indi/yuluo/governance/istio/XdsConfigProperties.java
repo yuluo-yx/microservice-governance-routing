@@ -18,16 +18,16 @@ package indi.yuluo.governance.istio;
 
 import javax.annotation.PostConstruct;
 
-import com.alibaba.cloud.commons.lang.StringUtils;
+import indi.yuluo.governance.commons.lang.StringUtils;
 import indi.yuluo.governance.istio.constant.IstioConstants;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * @author musi
- * @author <a href="liuziming@buaa.edu.cn"></a>
- * @since 2.2.10-RC1
+ * @author yuluo
+ * @author <a href="1481556636@qq.com"></a>
  */
+
 @ConfigurationProperties(XdsConfigProperties.PREFIX)
 public class XdsConfigProperties {
 

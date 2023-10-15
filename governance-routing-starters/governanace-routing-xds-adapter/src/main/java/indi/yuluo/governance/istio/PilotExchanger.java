@@ -35,10 +35,10 @@ import org.springframework.util.CollectionUtils;
 /**
  * PilotExchanger is the class which communicate with istio pilot.
  *
- * @author musi
- * @author <a href="liuziming@buaa.edu.cn"></a>
- * @since 2.2.10-RC1
+ * @author yuluo
+ * @author <a href="1481556636@qq.com"></a>
  */
+
 public class PilotExchanger {
 
 	private static final Logger log = LoggerFactory.getLogger(PilotExchanger.class);
