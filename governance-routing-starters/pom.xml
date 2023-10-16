@@ -19,6 +19,7 @@
 
 	<modules>
 		<module>governance-routing-sdk-starter</module>
+		<module>governance-routing-zuul-adapter</module>
 	</modules>
 
 </project>
