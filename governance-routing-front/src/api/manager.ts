@@ -17,17 +17,17 @@ service.interceptors.response.use((response) => {
 });
 
 // 添加请求拦截器
-service.interceptors.request.use((config) => {
-    //在请求接口前往header头自动添加token
-    const token = localStorage.getItem("token")
-    if (token) {
-        config.headers['token'] = token
-    }
-    // console.log('看到token',token)
-    return config;
-}, function (error) {
-    //对请求错误做些什么 
-    return Promise.reject(error);
-});
+// service.interceptors.request.use((config) => {
+//     //在请求接口前往header头自动添加token
+//     const token = localStorage.getItem("token")
+//     if (token) {
+//         config.headers['token'] = token
+//     }
+//     // console.log('看到token',token)
+//     return config;
+// }, function (error) {
+//     //对请求错误做些什么 
+//     return Promise.reject(error);
+// });
 
 export default service
