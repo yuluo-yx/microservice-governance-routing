@@ -16,7 +16,7 @@ export const gatewayV2Request = () => get('http://localhost:19098/routing-servic
 export const gatewayGetServerList = () => get('http://localhost:19098/services', null)
 
 // zuul 发布规则
-export const zuulAddRule = () => get('http://localhost:19099/updateRule', null)
+export const zuulAddRule = () => get('http://localhost:19099/addRule', null)
 
 // zuul 更新规则
 export const zuulUpdateRule = () => get('http://localhost:19099/updateRule', null)

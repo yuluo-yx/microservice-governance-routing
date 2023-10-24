@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package indi.yuluo.governance.consumer.feign.controller;
+package indi.yuluo.example.zuul.service.impl;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
+
+import javax.annotation.Resource;
 
 import com.alibaba.cloud.commons.governance.event.RoutingDataChangedEvent;
 import com.alibaba.cloud.commons.governance.routing.UnifiedRoutingDataStructure;
-import indi.yuluo.governance.consumer.feign.api.ConsumerFeignService;
+import indi.yuluo.example.zuul.service.AddZuulRoutingRuleService;
 import indi.yuluo.governance.routing.common.GovernanceRoutingConstants;
 import indi.yuluo.governance.routing.converter.Converter;
-import indi.yuluo.governance.routing.entity.ConsumerNodeInfo;
 import indi.yuluo.governance.routing.util.ReadJsonFileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,42 +35,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Service;
 
 /**
  * @author yuluo-yx
  * @author <a href="1481556636@qq.com"></a>
  */
 
-@RestController
-public class ConsumerFeignController implements ApplicationContextAware {
+@Service
+public class AddZuulRoutingRuleServiceImpl
+		implements AddZuulRoutingRuleService, ApplicationContextAware {
 
 	private static final Logger log = LoggerFactory
-			.getLogger(ConsumerFeignController.class);
+			.getLogger(AddZuulRoutingRuleServiceImpl.class);
 
 	@Autowired
 	private ApplicationContext applicationContext;
 
-	@Autowired
-	private ConsumerFeignService consumerFeignService;
-
-	@Autowired
+	@Resource
 	private Converter<String, List<UnifiedRoutingDataStructure>> jsonConverter;
 
 	private static String addRoutingRulePath;
 
-	private static String updateRoutingRulePath;
-
 	static {
-		org.springframework.core.io.Resource resource1 = new ClassPathResource(
+		org.springframework.core.io.Resource resource = new ClassPathResource(
 				"add-routing-rule.json");
-		org.springframework.core.io.Resource resource2 = new ClassPathResource(
-				"update-routing-rule.json");
 
 		try {
-			addRoutingRulePath = resource1.getFile().getPath();
-			updateRoutingRulePath = resource2.getFile().getPath();
+			addRoutingRulePath = resource.getFile().getPath();
 		}
 		catch (IOException e) {
 			throw new RuntimeException(e);
@@ -85,22 +77,10 @@ public class ConsumerFeignController implements ApplicationContextAware {
 		this.applicationContext = applicationContext;
 	}
 
-	@GetMapping("/info4node")
-	public Map<String, List<Map<String, List<String>>>> getInfo4Node() {
+	@Override
+	public void getDataFromControlPlaneTest() {
 
-		return ConsumerNodeInfo.getNodeIno();
-	}
-
-	@GetMapping("/router-test")
-	public String notFound() {
-
-		return consumerFeignService.routerTest();
-	}
-
-	@GetMapping("/add")
-	public String getDataFromControlPlaneTest() {
-
-		log.info("Access /add routing rule interface, add routing rule..." + "\n"
+		log.info("Access /addRule interface, publish routing rule..." + "\n"
 				+ GovernanceRoutingConstants.ADD_RULE_DESCRIPTION);
 
 		String content = ReadJsonFileUtils.convertFile2String(addRoutingRulePath);
@@ -112,25 +92,6 @@ public class ConsumerFeignController implements ApplicationContextAware {
 
 		log.info("Add routing rule success!");
 
-		return "OpenFeign Example Add routing rule success!";
-	}
-
-	@GetMapping("/update")
-	public String updateDataFromControlPlaneTest() {
-
-		log.info("Access /update routing rule interface, update routing rule..." + "\n"
-				+ GovernanceRoutingConstants.UPDATE_RULE_DESCRIPTION);
-
-		String content = ReadJsonFileUtils.convertFile2String(updateRoutingRulePath);
-		List<UnifiedRoutingDataStructure> unifiedRouteDataStructureList = jsonConverter
-				.convert(content);
-
-		applicationContext.publishEvent(
-				new RoutingDataChangedEvent(this, unifiedRouteDataStructureList));
-
-		log.info("Update routing rule success!");
-
-		return "OpenFeign Example Update routing rule success!";
 	}
 
 }

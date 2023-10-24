@@ -1,6 +1,6 @@
 package indi.yuluo.governance.routing.gateway.context.defaults;
 
-import com.alibaba.cloud.routing.context.AbstractLabelRoutingContextHolder;
+import indi.yuluo.governance.routing.context.AbstractLabelRoutingContextHolder;
 import indi.yuluo.governance.routing.gateway.context.LabelRoutingGatewayContext;
 
 import org.springframework.http.server.reactive.ServerHttpRequest;

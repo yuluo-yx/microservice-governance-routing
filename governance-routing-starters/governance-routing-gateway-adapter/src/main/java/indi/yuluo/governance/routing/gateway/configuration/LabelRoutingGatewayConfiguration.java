@@ -1,6 +1,6 @@
 package indi.yuluo.governance.routing.gateway.configuration;
 
-import com.alibaba.cloud.routing.context.LabelRoutingContextHolder;
+import indi.yuluo.governance.routing.context.LabelRoutingContextHolder;
 import indi.yuluo.governance.routing.gateway.context.defaults.DefaultLabelRoutingGatewayContextHolder;
 import indi.yuluo.governance.routing.gateway.filter.LabelRoutingGatewayClearFilter;
 import indi.yuluo.governance.routing.gateway.filter.LabelRoutingGatewayFilter;

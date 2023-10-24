@@ -145,7 +145,7 @@ public class ConsumerRestTemplateController implements ApplicationContextAware {
 	}
 
 	@GetMapping("/add")
-	public void getDataFromControlPlaneTest() {
+	public String getDataFromControlPlaneTest() {
 
 		log.info("Access /add routing rule interface, add routing rule..." + "\n"
 				+ GovernanceRoutingConstants.ADD_RULE_DESCRIPTION);
@@ -159,10 +159,12 @@ public class ConsumerRestTemplateController implements ApplicationContextAware {
 
 		log.info("Add routing rule success!");
 
+		return "RestTemplate Example Add routing rule success!";
+
 	}
 
 	@GetMapping("/update")
-	public void updateDataFromControlPlaneTest() {
+	public String updateDataFromControlPlaneTest() {
 
 		log.info("Access /update routing rule interface, update routing rule..." + "\n"
 				+ GovernanceRoutingConstants.UPDATE_RULE_DESCRIPTION);
@@ -175,6 +177,8 @@ public class ConsumerRestTemplateController implements ApplicationContextAware {
 				new RoutingDataChangedEvent(this, unifiedRouteDataStructureList));
 
 		log.info("Update routing rule success!");
+
+		return "OpenFeign Example Update routing rule success!";
 
 	}
 

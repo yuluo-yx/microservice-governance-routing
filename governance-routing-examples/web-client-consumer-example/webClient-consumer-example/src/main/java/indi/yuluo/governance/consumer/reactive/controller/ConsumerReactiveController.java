@@ -45,6 +45,7 @@ import org.springframework.cloud.client.discovery.ReactiveDiscoveryClient;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -54,6 +55,7 @@ import org.springframework.web.reactive.function.client.WebClient;
  * @author <a href="1481556636@qq.com"></a>
  */
 
+@CrossOrigin
 @RestController
 public class ConsumerReactiveController implements ApplicationContextAware {
 
@@ -143,8 +145,8 @@ public class ConsumerReactiveController implements ApplicationContextAware {
 
 		return reactiveDiscoveryClient
 				.getInstances(GovernanceRoutingConstants.SERVICE_PROVIDER_NAME)
-				.map(serviceInstance -> serviceInstance.getHost() + ":"
-						+ serviceInstance.getPort());
+				.map(serviceInstance -> serviceInstance.getHost() + "\t"
+						+ serviceInstance.getPort() + "\n");
 	}
 
 	@GetMapping("/router-test")
@@ -156,7 +158,7 @@ public class ConsumerReactiveController implements ApplicationContextAware {
 	}
 
 	@GetMapping("/add")
-	public void getDataFromControlPlaneTest() {
+	public String getDataFromControlPlaneTest() {
 
 		log.info("Access /add routing rule interface, add routing rule..." + "\n"
 				+ GovernanceRoutingConstants.ADD_RULE_DESCRIPTION);
@@ -169,10 +171,12 @@ public class ConsumerReactiveController implements ApplicationContextAware {
 				new RoutingDataChangedEvent(this, unifiedRouteDataStructureList));
 
 		log.info("Add routing rule success!");
+
+		return "WebFlux Example Add routing rule success!";
 	}
 
 	@GetMapping("/update")
-	public void updateDataFromControlPlaneTest() {
+	public String updateDataFromControlPlaneTest() {
 
 		log.info("Access /update routing rule interface, update routing rule..." + "\n"
 				+ GovernanceRoutingConstants.UPDATE_RULE_DESCRIPTION);
@@ -187,6 +191,8 @@ public class ConsumerReactiveController implements ApplicationContextAware {
 				new RoutingDataChangedEvent(this, unifiedRouteDataStructureList));
 
 		log.info("Update routing rule success!");
+
+		return "OpenFeign Example Update routing rule success!";
 	}
 
 }

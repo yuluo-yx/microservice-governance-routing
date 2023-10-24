@@ -44,7 +44,7 @@ public class AddGatewayRoutingRuleHandler implements HandlerFunction<ServerRespo
 		routingRuleService.getDataFromControlPlaneTest();
 
 		return ServerResponse.status(HttpStatus.OK)
-				.body(BodyInserters.fromValue("Add routing rule success！"));
+				.body(BodyInserters.fromValue("Spring Cloud Gateway Add routing rule success！"));
 
 	}
 

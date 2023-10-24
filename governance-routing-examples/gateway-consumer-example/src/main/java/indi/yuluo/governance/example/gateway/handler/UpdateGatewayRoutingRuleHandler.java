@@ -44,7 +44,7 @@ public class UpdateGatewayRoutingRuleHandler implements HandlerFunction<ServerRe
 		routingRuleService.updateDataFromControlPlaneTest();
 
 		return ServerResponse.status(HttpStatus.OK)
-				.body(BodyInserters.fromValue("Updating routing rule success！"));
+				.body(BodyInserters.fromValue("Spring Cloud Gateway Updating routing rule success！"));
 
 	}
 

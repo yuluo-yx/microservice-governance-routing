@@ -5,12 +5,12 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import com.alibaba.cloud.routing.constant.LabelRoutingConstants;
+import indi.yuluo.governance.routing.constant.LabelRoutingConstants;
 import indi.yuluo.governance.routing.gateway.constants.LabelRoutingGatewayConstants;
 import indi.yuluo.governance.routing.gateway.context.LabelRoutingGatewayContext;
 import indi.yuluo.governance.routing.gateway.filter.LabelRoutingGatewayFilter;
 import indi.yuluo.governance.routing.gateway.util.LabelRoutingGatewayFilterResolver;
-import com.alibaba.cloud.routing.properties.LabelRoutingProperties;
+import indi.yuluo.governance.routing.properties.LabelRoutingProperties;
 import reactor.core.publisher.Mono;
 
 import org.springframework.beans.factory.annotation.Value;

@@ -61,6 +61,12 @@
 
 			<dependency>
 				<groupId>indi.yuluo</groupId>
+				<artifactId>governance-routing-zuul-adapter</artifactId>
+				<version>${revision}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>indi.yuluo</groupId>
 				<artifactId>governance-routing-service-adapter</artifactId>
 				<version>${revision}</version>
 			</dependency>

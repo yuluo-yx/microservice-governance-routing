@@ -37,7 +37,7 @@ export const webClientV1Request = () => get('http://localhost:19096/router-test'
 export const webClientV2Request = () => get('http://localhost:19096/router-test?id=11', null)
 
 // webclient 获取所有服务实例
-export const webClientGetServerList = () => get('http://localhost:19096/all-services', null)
+export const webClientGetServerList = () => get('http://localhost:19096/services', null)
 
 // webclient 读取访问节点信息
-export const webClientGetServerNode = () => get('http://localhost:19096/nodeInfo', null)
+export const webClientGetServerNode = () => get('http://localhost:19096/info4Node', null)

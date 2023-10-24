@@ -11,44 +11,34 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<name>Governance Routing Example Routing Service Provider Module</name>
-	<packaging>jar</packaging>
-	<version>${revision}</version>
-	<artifactId>routing-service-provider-example</artifactId>
+	<artifactId>zuul-consumer-example</artifactId>
+	<name>Label Routing Zuul Consumer Example</name>
 
 	<dependencies>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>com.alibaba.cloud</groupId>
 			<artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-openfeign</artifactId>
 		</dependency>
-
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-autoconfigure</artifactId>
+			<groupId>indi.yuluo</groupId>
+			<artifactId>governance-routing-zuul-adapter</artifactId>
 		</dependency>
-
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-configuration-processor</artifactId>
-			<optional>true</optional>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-zuul</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>indi.yuluo</groupId>
 			<artifactId>governance-routing-example-common</artifactId>
 		</dependency>
-
 	</dependencies>
 
 	<build>
@@ -56,9 +46,6 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<mainClass>indi.yuluo.governance.examples.A1ProviderApplication</mainClass>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
