@@ -9,7 +9,7 @@ export function get(url: string, params: any) {
         }).then(res => {
             resolve(res.data);
         }).catch(err => {
-            reject(err.data);
+            reject(err);
         });
     });
 }
@@ -24,7 +24,7 @@ export function post(url: string, params: any) {
                 resolve(res.data);
             })
             .catch(err => {
-                reject(err.data);
+                reject(err);
             });
     });
 }

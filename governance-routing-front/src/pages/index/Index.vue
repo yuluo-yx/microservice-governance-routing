@@ -363,7 +363,9 @@ const openFeignV1Request = () => {
 
 const openFeignV2Request = () => {
   webClientApi
-    .openfeignV2Request()
+    .openfeignV2Request({
+      id: 11
+    })
     .then((res) => {
       responseData.value = res;
     })
