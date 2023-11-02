@@ -87,7 +87,9 @@
 
 # example 设计
 
+在此微服务治理项目中，功能 example 模块主要为测试 spring cloud gateway 和 spring netflix zuul 和 三大请求客户端的 example。主要功能为测试各种流量来源的流量治理功能效果，
 
+其中还编写了 Istio 的 example，但是由于环境限制，并没有在 kubernetes 集群上部署和运行测试。而是通过在 example 中使用 controller 的方式模拟从 istio 拉取规则，下发规则到 dp 的模拟。
 
 ## example 结构
 
@@ -103,21 +105,464 @@
     │      └─webClient-consumer-example
 ```
 
-# example 运行
+## example 运行
 
+1. 首先，修改需要进行路由服务的 `pom.xml` 文件，引入 `governance-routing-service-adapter` 依赖，可以根据业务场景引入不用的 adapter 依赖。
 
+   ```xml
+   <dependency>
+       <groupId>indi.yuluo</groupId>
+       <artifactId>governance-routing-service-adapter</artifactId>
+   </dependency>
+   ```
 
-## 本地运行
+2. 配置当没有路由规则时的负载均衡算法（以随机负载均衡算法为例），如果没有配置，使用 ribbon 默认的负载均衡算法 ZoneAvoidanceRule 。
 
+   ```properties
+   spring.cloud.governance.routing.rule=RandomRule
+   ```
 
+### 应用启动
+
+进入 `routing-service-provider-example` 文件夹，启动四个服务实例，分别为 A1ProviderApplication，到 A4ProviderApplication 将其注入到 Nacos 注册中心中。
+
+### 客户端消费者效果演示（以 feign 为例）
+
+> Note: 本章节演示提供了 Docker-Compose 快速启动版本，点击此处查看 (Docker-Compose QuickStart)[./docker-compose-example-quickstart/label-routing-quickstart/README-zh.md]
+
+1. 进入 `web-client-consumer-example/resources` 文件夹中将请求客户端需要的脚本导入到 postman 中，在验证时发送请求使用；
+   1. `feign` 消费者客户端在 postman 中的请求脚本位置在 `客户端消费者/feign` 目录下；（RestTemplate 和 WebClient 相同）
+2. 进入 `web-client-consumer-example` 文件夹分别启动三个模块的启动类，分别为 ConsumerFeignApplication，ConsumerReactiveApplication 和 ConsumerRestApplication；
+3. 逐个点击 v1 和 v2 版本请求，查看四个服务实例是否可以被正常消费**（不设置任何路由规则）**。
+
+#### 服务提供者预期结果说明
+
+进入 `routing-service-provider-example` 路径下，查看启动类文件，可以发现如下代码：
+
+```java
+@RestController
+class A1Controller {
+
+   @GetMapping("/test-a1")
+   public String testA1() {
+       
+      String host = nacosRegistration.getHost();
+      int port = nacosRegistration.getPort();
+      String zone = nacosRegistration.getMetadata().get("zone");
+      String region = nacosRegistration.getMetadata().get("region");
+      String version = nacosRegistration.getMetadata().get("version");
+      return "Route in " + host + ":" + port + ", region: " + region + ", zone: "
+              + zone + ", version: " + version;
+   }
+
+}
+```
+
+从中可以看出服务提供者返回的数据如下：
+
+- 返回服务实例的 host，ip 地址；
+- 返回服务实例的 port；
+- 在进行区域亲和性路由时，在服务中设置的 region 和 zone 标签；
+- 在服务中设置的 nacos 元数据标签 version
+
+服务提供者返回样例：
+
+```shell
+Route in 192.168.2.9:19093, region: dev, zone: zone1, version: v1
+```
+
+#### 规则说明
+
+服务消费者（openfeign-consumer-example，restTemplate-consumer-example，reactive-consumer-example）实例中设置的路由规则如下：
+
+```json
+[
+  {
+    "targetService": "routing-service-provider",
+    "labelRouteRule": {
+      "matchRouteList": [
+        {
+          "ruleList": [
+            {
+              "type": "header",
+              "condition": "=",
+              "key": "tag",
+              "value": "v2"
+            },
+            {
+              "type": "parameter",
+              "condition": ">",
+              "key": "id",
+              "value": "10"
+            },
+            {
+              "type": "path",
+              "condition": "=",
+              "value": "/router-test",
+              "key": null
+            }
+          ],
+          "version": "v2",
+          "weight": 100,
+          "fallback": null
+        }
+      ],
+      "defaultRouteVersion": "v1"
+    }
+  }
+]
+```
+
+代码对应的路由规则如下：
+
+> 若同时满足请求参数中含有`tag=v2`，请求头中含有 id 且值小于10，uri 为 `/router-test` 则流量全部路由到 v2 版本中，若有一条不满足，则流量路由到 v1 版本中。
+
+规则也支持动态修改，测试动态修改的规则如下：
+
+```json 
+[
+   {
+      "targetService": "routing-service-provider",
+      "labelRouteRule": {
+         "matchRouteList": [
+            {
+               "ruleList": [
+                  {
+                     "type": "header",
+                     "condition": "=",
+                     "key": "tag",
+                     "value": "v2"
+                  },
+                  {
+                     "type": "parameter",
+                     "condition": ">",
+                     "key": "id",
+                     "value": "10"
+                  },
+                  {
+                     "type": "path",
+                     "condition": "=",
+                     "value": "/router-test",
+                     "key": null
+                  }
+               ],
+               "version": "v2",
+               "weight": 50,
+               "fallback": null
+            }
+         ],
+         "defaultRouteVersion": "v1"
+      }
+   }
+]
+```
+代码对应的规则如下：
+
+> 若同时满足请求参数中含有 `tag=v2`，请 求头中含有 id 且值小于10，uri 为 `/router-test`，则 50% 流量路由到 v2 版本中，剩下的流量路由到 v1 版本中，若有一条不满足，则流量路由到 v1 版本中。
+
+区域亲和性路由规则如下：
+
+```yml
+    # label routing configuration
+    governance:
+      routing:
+        region: dev
+        zone: zone1
+      # rule: RandomRule
+```
+
+> 当服务实例满足所设置的 `region=dev`, `zone=zone1` 规则时，路由到指定服务实例。
+
+#### 当区域亲和性路由存在时
+
+1. 添加路由规则，将路由规则由控制面接口推入路由规则仓库中。
+
+   ```shell
+   # 预期结果：
+   # v1：不满足路由规则，路由到v1版本中，且区域亲和性路由规则为 regnion=dev，zone=zone1，预期结果为：
+   #     Route in 192.168.2.9:19093, region: dev, zone: zone1, version: v1
+   # v2：观察 service-provider 的元数据发现，没有 region=dev，zone=zone1，version=v2 的服务实例，因此区域亲和性路由会退化为标签路由效果，预期为以下结果：
+   #     Route in 192.168.2.9:19092, region: qa, zone: zone2, version: v2
+   #     Route in 192.168.2.9:19094, region: dev, zone: zone2, version: v2
+   
+   # 测试发现和预期结果匹配！
+   ```
+
+2. 更新路由规则，模拟动态修改路由规则。
+
+   ```shell
+   # 预期结果：
+   # v1：不满足路由规则，路由到 v1 版本中，且区域亲和性路由规则为 region=dev，zone=zone1，实例打印返回如下结果：
+   #     Route in 172.18.0.3:19093, region: dev, zone: zone1, version: v1
+   # v2：因为设置了区域亲和性路由规则，所以即使 v1 和 v2 版本各自 50% 的权重，但是还是会根据区域亲和性路由规则选取服务实例, 预期结果为：
+   #     Route in 192.168.2.9:19093, region: dev, zone: zone1, version: v1
+   
+   # 测试发现和预期结果匹配！
+   ```
+
+#### 当区域亲和性路由不存在时
+
+进入 `web-client-consumer-example/openfeign-consumer-example/src/main/resources/application.yml` 文件中，注释以下配置，再次启动 ConsumerFeignApplication；
+
+```yml
+    # label routing configuration
+    governance:
+      routing:
+        # region: dev
+        # zone: zone1
+      # rule: RandomRule
+```
+
+1. 添加路由规则，将路由规则由控制面接口推入路由规则仓库中。
+
+   ```shell
+   # 预期结果：
+   # v1：因为没有区域亲和性路由限制，所以会在 v1 实例之间按照 ribbon 的规则进行负载均衡
+   #    Route in 192.168.2.9:19091, region: qa, zone: zone1, version: v1
+   #    Route in 192.168.2.9:19093, region: dev, zone: zone1, version: v1
+   
+   # v2：因为没有区域亲和性路由限制，所以会在 v2 实例之间按照 ribbon 的规则进行负载均衡
+   #    Route in 192.168.2.9:19094, region: dev, zone: zone2, version: v2
+   #    Route in 192.168.2.9:19092, region: qa, zone: zone2, version: v2
+   
+   # 测试发现，符合预期结果
+   ```
+
+2. 更新路由规则，模拟动态修改路由规则。
+
+   ```shell
+   # 预期结果
+   # v1：因为没有区域亲和性路由限制，路由结果按照标签路由选择服务实例，所以会在两个 v1 实例之间按照 ribbon 的规则进行负载均衡
+   #    Route in 192.168.2.9:19093, region: dev, zone: zone1, version: v1
+   #    Route in 192.168.2.9:19091, region: qa, zone: zone1, version: v1
+     
+   # v2：v1 和 v2 权重各占 50，所以四种服务实例的调用结果都会出现
+   #    Route in 192.168.2.9:19093, region: dev, zone: zone1, version: v1
+   #    Route in 192.168.2.9:19092, region: qa, zone: zone2, version: v2
+   #    Route in 192.168.2.9:19094, region: dev, zone: zone2, version: v2
+   #    Route in 192.168.2.9:19091, region: qa, zone: zone1, version: v1
+   
+   # 测试发现，符合预期结果
+   ```
+
+### 网关消费者效果演示 （以 gateway 为例）
+
+1. 进入 `gateway-consumer-example` 文件夹分别启动两个网关模块的启动类，分别为 ConsumerZuulApplication，和ConsumerGatewayApplication
+2. 进入 `gateway-consumer-example/resources` 文件夹将网关示例需要的请求脚本导入到 postman 中；
+3. 逐个点击 v1 和 v2 版本请求，查看四个服务实例是否可以被正常消费**（不设置任何路由规则）**。
+
+#### 规则说明
+
+网关消费者中的标签路由规则如下：
+
+```json
+[
+   {
+      "targetService": "routing-service-provider",
+      "labelRouteRule": {
+         "matchRouteList": [
+            {
+               "ruleList": [
+                  {
+                     "type": "header",
+                     "condition": "=",
+                     "key": "tag",
+                     "value": "v2"
+                  },
+                  {
+                     "type": "parameter",
+                     "condition": ">",
+                     "key": "id",
+                     "value": "10"
+                  },
+                  {
+                     "type": "path",
+                     "condition": "=",
+                     "value": "/test-a1",
+                     "key": null
+                  }
+               ],
+               "version": "v2",
+               "weight": 100,
+               "fallback": null
+            }
+         ],
+         "defaultRouteVersion": "v1"
+      }
+   }
+]
+```
+
+代码对应的路由规则如下：
+
+> 若同时满足请求参数中含有 `tag=v2`，请求头中含有 id 且值小于10，uri 为 `/test-a1` 则流量全部路由到 v2 版本中，若有一条不满足，则流量路由到 v1 版本中。
+
+更新路由规则：
+
+```json
+[
+   {
+      "targetService": "routing-service-provider",
+      "labelRouteRule": {
+         "matchRouteList": [
+            {
+               "ruleList": [
+                  {
+                     "type": "header",
+                     "condition": "=",
+                     "key": "tag",
+                     "value": "v2"
+                  },
+                  {
+                     "type": "parameter",
+                     "condition": ">",
+                     "key": "id",
+                     "value": "10"
+                  },
+                  {
+                     "type": "path",
+                     "condition": "=",
+                     "value": "/test-a1",
+                     "key": null
+                  }
+               ],
+               "version": "v2",
+               "weight": 50,
+               "fallback": null
+            }
+         ],
+         "defaultRouteVersion": "v1"
+      }
+   }
+]
+
+```
+
+代码对应的规则如下：
+
+> 若同时满足请求参数中含有 `tag=v2`，请 求头中含有 id 且值小于10，uri 为 `/test-a1`，则 50% 流量路由到 v2 版本中，剩下的流量路由到 v1 版本中，若有一条不满足，则流量路由到 v1 版本中。
+
+区域亲和性路由规则如下：
+
+```yml
+    # label routing configuration
+    governance:
+      routing:
+        region: dev
+        zone: zone1
+      # rule: RandomRule
+```
+
+> 当服务实例满足所设置的 `region=dev`, `zone=zone1` 规则时，路由到指定服务实例。
+
+#### 当区域亲和性路由存在时
+
+1. 添加路由规则，将路由规则由控制面接口推入路由规则仓库中。
+
+   ```shell
+   # 预期结果：
+   # v1：不满足路由规则，路由到v1版本中，且区域亲和性路由规则为 region=dev，zone=zone1，预期结果为：
+   #     Route in 192.168.2.9:19093, region: dev, zone: zone1, version: v1
+   # v2：观察 service-provider 的元数据发现，没有 region=dev，zone=zone1，version=v2 的服务实例，因此区域亲和性路由会退化为标签路由效果，预期为以下结果：
+   #     Route in 192.168.2.9:19092, region: qa, zone: zone2, version: v2
+   #     Route in 192.168.2.9:19094, region: dev, zone: zone2, version: v2
+   
+   # 测试发现和预期结果匹配！
+   ```
+
+2. 更新路由规则，模拟动态修改路由规则。
+
+   ```shell
+   # 预期结果：
+   # v1：不满足标签路由规则，路由到v1版本中，从两个 v1 版本实例中根据区域亲和性标签选择服务实例，实例打印返回如下结果：
+   #     Route in 172.18.0.3:19093, region: dev, zone: zone1, version: v1
+   # v2：因为设置了区域亲和性路由规则，所以即使 v1 和 v2 版本各自 50% 的权重，但是还是会根据区域亲和性路由规则选取服务实例, 预期结果为：
+   #     Route in 192.168.2.9:19093, region: dev, zone: zone1, version: v1
+   
+   # 测试发现和预期结果匹配！
+   ```
+
+#### 当区域亲和性路由不存在时
+
+进入 `gateway-consumer-example/gateway-consumer-example/src/main/resources/application.yml` 文件中，注释以下配置，再次启动 GatewayConsumerApplication ；
+
+```yml
+    # Regional affinity routing configuration
+    governance:
+       routing:
+#        region: dev
+#        zone: zone1
+       # rule: RandomRule
+```
+
+1. 添加路由规则，将路由规则由控制面接口推入路由规则仓库中。
+
+   ```shell
+   # 预期结果：
+   # v1：因为没有区域亲和性路由限制，所以会在实例之间按照 ribbon 的规则进行负载均衡
+   #    Route in 192.168.2.9:19091, region: qa, zone: zone1, version: v1
+   #    Route in 192.168.2.9:19093, region: dev, zone: zone1, version: v1
+   
+   # v2：因为没有区域亲和性路由限制，所以会在实例之间按照 ribbon 的规则进行负载均衡
+   #    Route in 192.168.2.9:19094, region: dev, zone: zone2, version: v2
+   #    Route in 192.168.2.9:19092, region: qa, zone: zone2, version: v2
+   
+   # 测试发现，符合预期结果
+   ```
+
+2. 更新路由规则，模拟动态修改路由规则。
+
+   ```shell
+   # 预期结果
+   # v1：因为没有区域亲和性路由限制，路由结果按照标签路由选择服务实例，所以会在两个实例之间按照 ribbon 的规则进行负载均衡
+   #    Route in 192.168.2.9:19093, region: dev, zone: zone1, version: v1
+   #    Route in 192.168.2.9:19091, region: qa, zone: zone1, version: v1
+     
+   # v2：v1 和 v2 权重各占 50，所以四种服务实例的调用结果都会出现
+   #    Route in 192.168.2.9:19093, region: dev, zone: zone1, version: v1
+   #    Route in 192.168.2.9:19092, region: qa, zone: zone2, version: v2
+   #    Route in 192.168.2.9:19094, region: dev, zone: zone2, version: v2
+   #    Route in 192.168.2.9:19091, region: qa, zone: zone1, version: v1
+   
+   # 测试发现，符合预期结果
+   ```
 
 ## Docker Compose 
 
-
+在此项目还提供了 docker compose 的部署方式。详情参见 `governance-routing-docker` README.md 文件。
 
 # 项目展望
 
+中国微服务治理的流量管理方面在近年来逐渐得到重视和发展。以下是对中国微服务治理现状和未来发展方向的分析：
 
+标签路由：标签路由是根据服务的标签属性将流量路由到不同的服务实例。中国的互联网企业普遍采用标签路由来实现流量管理。通过标签路由，可以根据不同的业务需求将流量分发到不同版本或者不同地域的服务实例上，实现基于策略的流量控制。
+
+灰度发布：在中国的微服务治理实践中，灰度发布是非常重要的一种流量管理方式。通过灰度发布，可以逐步将新版本的服务实例引入到生产环境中，控制流量的比例和时间，降低线上故障的影响范围，保证服务的稳定性。
+
+离群实例摘除：对于不符合预期或出现异常的服务实例，中国的企业普遍采用离群实例摘除的方式进行处理。通过监控系统和自动化脚本，可以根据实例的指标和状态进行判断，及时将离群的实例从流量管理中摘除，以保证整体服务的稳定性。
+
+未来的发展方向主要包括以下几个方面：
+
+弹性流量管理：随着云原生技术的不断发展，在中国微服务治理领域将会出现更加灵活和智能的流量管理方案。弹性流量管理能够根据实时的业务和系统指标进行流量调度，提高服务的弹性和响应能力。
+
+服务网格技术的应用：服务网格技术在全球范围内已经得到广泛应用，中国也在逐渐引入和应用服务网格技术。服务网格可以提供更细粒度的流量管理能力，通过控制流量的路由和策略，实现对微服务架构的全面治理。
+
+AI技术在流量管理中的应用：人工智能技术在中国的互联网企业中日益普及，未来有望在流量管理中发挥更大的作用。通过利用AI技术对海量的流量数据进行分析和预测，可以提供更精准和智能的流量管理策略，提升服务的安全性和性能。
+
+总之，在流量管理方面，中国微服务治理正朝着更加智能和自动化的方向发展，未来将会面临更多的挑战和机遇。通过不断探索和创新，中国的微服务治理能够更好地适应互联网企业的需求，实现更高效、可靠和可扩展的微服务架构。
 
 # 项目总结
 
+项目总结：
+
+在本项目中，成功构建了一个微服务治理框架，并实现了标签路由能力。我们选择了Ribbon作为负载均衡工具，并根据不同的流量管控规则来治理业务流量。同时，适配了Spring Cloud Gateway和Zuul网关，以及WebClient、RestTemplate和Feign等三个客户端。此外，我们还适配了Istio的XDS协议，使得应用能够在云环境中生长，并从SDK的角度完成了流量治理功能。
+
+通过这个项目，我们取得了如下成果：
+
+构建了一个功能完备的微服务治理框架：根据实际需要，选择了适当的负载均衡工具，并实现了标签路由能力。框架还提供了与常见网关和客户端的适配，并且支持Istio的流量规则配置。
+
+提供了示例和文档：我们为适配的组件编写了示例，以帮助开发人员快速上手并了解框架的使用。我们还编写了Docker Compose文件，使得用户能够快速体验框架的功能。此外，我们也提供了详细的文档，包括项目结构、使用方法和注意事项等，以便用户能够深入理解和应用框架。
+
+实现了SDK级别的流量治理功能：我们从SDK的角度出发，为应用提供了流量治理的能力。这使得开发人员能够在微服务架构中轻松实现流量管理，提高系统的弹性和可靠性。
+
+总的来说，通过这个项目，成功构建了一个强大的微服务治理框架，并提供了示例和文档，以及体验环境。这个框架将有助于企业在微服务架构中实现流量管理，提高系统的性能和稳定性。希望这个项目能够对微服务治理领域的发展做出贡献，并为开发人员提供便利和帮助。

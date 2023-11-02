@@ -1,0 +1,16 @@
+version: "3"
+services:
+
+  # nacos
+  label-routing-service-nacos:
+    image: nacos/nacos-server:v2.1.0
+    restart: always
+    container_name: ${DOCKER_PREFIX}-nacos-server
+    env_file:
+      - .env
+    environment:
+      - MODE=standalone
+    ports:
+      - ${NACOS_PORT}:${NACOS_PORT}
+      - ${NACOS_GRPC_PORT}:${NACOS_GRPC_PORT}
+
