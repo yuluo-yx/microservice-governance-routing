@@ -77,8 +77,6 @@
     │  ├─governance-routing-zuul-adapter			# Spring Netflix Zuul Adapter
 ```
 
-## 网络拓扑图
-
 
 
 ## 架构图

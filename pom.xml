@@ -47,10 +47,6 @@
 		<module>governance-routing-docs</module>
 		<module>governance-routing-examples</module>
 		<module>governance-routing-starters</module>
-		<module>governance-routing-starters/governance-routing-common</module>
-		<module>governance-routing-starters/governance-routing-gateway-adapter</module>
-		<module>governance-routing-starters/governance-routing-service-adapter</module>
-		<module>governance-routing-starters/governanace-routing-xds-adapter</module>
 		<module>governance-routing-docker</module>
 	</modules>
 

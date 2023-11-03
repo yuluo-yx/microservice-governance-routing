@@ -13,13 +13,17 @@
 
 	<packaging>pom</packaging>
 	<version>${revision}</version>
-	<name>MicroService Governance Routing Starters</name>
-	<description>MicroService Governance Routing Starters</description>
+	<name> MicroService Governance Routing Starters </name>
+	<description> MicroService Governance Routing Starters </description>
 	<artifactId>governance-routing-starters</artifactId>
 
 	<modules>
 		<module>governance-routing-sdk-starter</module>
+		<module>governance-routing-common</module>
+		<module>governance-routing-gateway-adapter</module>
+		<module>governance-routing-xds-adapter</module>
 		<module>governance-routing-zuul-adapter</module>
+		<module>governance-routing-service-adapter</module>
 	</modules>
 
 </project>

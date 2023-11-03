@@ -83,13 +83,6 @@
 				<version>${spring.context.support.version}</version>
 			</dependency>
 
-			<!-- Example -->
-			<dependency>
-				<groupId>indi.yuluo</groupId>
-				<artifactId>governance-routing-example-common</artifactId>
-				<version>${revision}</version>
-			</dependency>
-
 		</dependencies>
 	</dependencyManagement>
 
