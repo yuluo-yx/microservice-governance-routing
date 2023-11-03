@@ -38,6 +38,7 @@
 		<dependency>
 			<groupId>indi.yuluo</groupId>
 			<artifactId>governance-routing-example-common</artifactId>
+			<version>${revision}</version>
 		</dependency>
 	</dependencies>
 

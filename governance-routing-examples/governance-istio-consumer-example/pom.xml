@@ -33,15 +33,14 @@
 		</dependency>
 
 		<dependency>
-			<groupId>indi.yuluo</groupId>
-			<artifactId>governance-routing-sdk-starter</artifactId>
+			<groupId>com.alibaba.cloud</groupId>
+			<artifactId>spring-cloud-starter-alibaba-governance-routing</artifactId>
 		</dependency>
 
 		<dependency>
-			<groupId>indi.yuluo</groupId>
-			<artifactId>governanace-routing-xds-adapter</artifactId>
+			<groupId>com.alibaba.cloud</groupId>
+			<artifactId>spring-cloud-starter-xds-adapter</artifactId>
 		</dependency>
-
 	</dependencies>
 
 	<build>
