@@ -4,19 +4,19 @@
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>indi.yuluo</groupId>
-	<artifactId>microservice-governance-routing</artifactId>
-	<version>${revision}</version>
-	<packaging>pom</packaging>
-	<name>MicroService Governance Routing</name>
-	<description>MicroService Governance Routing</description>
-
 	<parent>
 		<groupId>org.springframework.cloud</groupId>
 		<artifactId>spring-cloud-build</artifactId>
 		<version>2.3.5.RELEASE</version>
 		<relativePath/>
 	</parent>
+
+	<groupId>indi.yuluo</groupId>
+	<artifactId>microservice-governance-routing</artifactId>
+	<version>${revision}</version>
+	<packaging>pom</packaging>
+	<name>MicroService Governance Routing</name>
+	<description>MicroService Governance Routing</description>
 
 	<developers>
 		<developer>
@@ -135,6 +135,5 @@
 			</build>
 		</profile>
 	</profiles>
-
 
 </project>

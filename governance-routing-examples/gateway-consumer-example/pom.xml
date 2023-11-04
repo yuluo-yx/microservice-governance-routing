@@ -13,7 +13,6 @@
 
 	<name>Governance Routing Example Gateway Consumer Example Module</name>
 	<packaging>jar</packaging>
-	<version>${revision}</version>
 	<artifactId>gateway-consumer-example</artifactId>
 
 	<dependencies>

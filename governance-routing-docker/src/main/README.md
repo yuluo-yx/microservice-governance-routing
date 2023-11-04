@@ -6,7 +6,40 @@
 
 ### 1.1 准备服务 Jar 包
 
-1. 进入 `governance-routing-examples` 目录下，执行 `mvn clean package` 打包 example 服务 jar 包；
+1. 进入 `governance-routing-examples` 目录下，执行 `mvn clean package` 打包 example 服务 jar 包；(打包结果如下所示)
+
+   ```java
+   [INFO] ------------------------------------------------------------------------
+   [INFO] Reactor Summary for MicroService Governance Routing 2023.10.14:
+   [INFO]
+   [INFO] MicroService Governance Routing Dependencies ....... SUCCESS [  0.215 s]
+   [INFO] MicroService Governance Routing .................... SUCCESS [  1.009 s]
+   [INFO] MicroService Governance Routing Docs ............... SUCCESS [  0.043 s]
+   [INFO] MicroService Governance Routing Starters ........... SUCCESS [  0.045 s]
+   [INFO] MicroService Governance Routing Starter ............ SUCCESS [  4.792 s]
+   [INFO] MicroService Governance Routing Gateway Adapter .... SUCCESS [  1.748 s]
+   [INFO] MicroService Governance Routing Examples ........... SUCCESS [  0.026 s]
+   [INFO] Governance Routing Example Consumer Common Module .. SUCCESS [  0.264 s]
+   [INFO] Governance Routing Example Gateway Consumer Example Module SUCCESS [  1.145 s]
+   [INFO] MicroService Governance Routing Zuul Adapter ....... SUCCESS [  1.520 s]
+   [INFO] Label Routing Zuul Consumer Example ................ SUCCESS [  0.740 s]
+   [INFO] Governance Routing Example Routing Service Provider Module SUCCESS [  0.900 s]
+   [INFO] MicroService Governance Routing Service Adapter .... SUCCESS [  1.009 s]
+   [INFO] Governance Routing Example WebClient Consumer Example Module SUCCESS [  0.063 s]
+   [INFO] Label Routing OpenFeign Consumer Example ........... SUCCESS [  0.748 s]
+   [INFO] Label Routing RestTemplate Consumer Example ........ SUCCESS [  0.744 s]
+   [INFO] Label Routing WebClient Consumer Example ........... SUCCESS [  0.764 s]
+   [INFO] Governance Routing Istio Label Routing Consumer Example SUCCESS [  0.871 s]
+   [INFO] MicroService Governance Routing Common ............. SUCCESS [  2.291 s]
+   [INFO] MicroService Governance Routing Xds Adapter ........ SUCCESS [  2.415 s]
+   [INFO] MicroService Governance Routing Docker ............. SUCCESS [  0.042 s]
+   [INFO] ------------------------------------------------------------------------
+   [INFO] BUILD SUCCESS
+   [INFO] ------------------------------------------------------------------------
+   [INFO] Total time:  21.855 s
+   [INFO] Finished at: 2023-11-04T11:27:39+08:00
+   [INFO] ------------------------------------------------------------------------
+   ```
 
 2. 进入 `governance-routing-docker/src/main` 目录下，执行以下脚本移动 jar 包到指定目录下；
 
@@ -33,14 +66,15 @@
 
 ```markdown
 └─governance-routing-docker
-    │  .env													# Docker env 设置
+    │  .env													# Docker env 配置文件
     │  .gitignore							
-    │  docker-compose-consume-example.yml					# 消费者 example
+    │  docker-compose-web-client-consume.yml				# 客户端消费者 example
     │  docker-compose-service-example.yml					# 服务提供者
-    │  move-example-jar.sh									# 移动 jar 包脚本
+    │  docker-compose-gateway-consumer.yml					# 服务提供者
+    │  move-jar.sh											# 移动 jar 包脚本
     │  README-zh.md											# 参考 README 文件
     ├─--Nacos												# 注册中心
-    ├─--Portainer											# 容器监控面板
+    ├─--Portainer											# 容器监控服务
 	├─--apps
         ├─gateway-consumer-example
         │  │  DockerFile									# 启动服务消费者的 DockerFile 文件
@@ -55,10 +89,10 @@
         │
         ├─service-provider-example							# 服务提供者文件夹
         │      app.jar
-        │      application-dockerA1.properties
-        │      application-dockerA2.properties
-        │      application-dockerA3.properties
-        │      application-dockerA4.properties
+        │      application-dockerA1.yml
+        │      application-dockerA2.yml
+        │      application-dockerA3.yml
+        │      application-dockerA4.yml
         │      DockerFile
         │      start-service-provider.sh					# 服务提供者启动脚本（docker内）
         │
@@ -80,8 +114,7 @@
 
 ### 1.4 Postman 测试脚本
 
-1. 进入 `governance-routing-examples/resources` 文件夹下，将网关消费者请求脚本导入 postman 中；
-2. 进入 `governance-routing-examples/resources` 文件夹下，将客户端消费者请求脚本导入 postman 中。
+1. 进入 `governance-routing-examples/resources` 文件夹下，分别将客户端消费者和网关消费者请求脚本导入 postman 中；
 
 ## 2. 启动服务提供者和 nacos-server
 
@@ -91,7 +124,7 @@
    docker-compose up -d 
    ```
 
-1. 进入 `governance-routing-examples/src/main` 文件夹下，在 terminal 中输入以下命令以启动 service-provider-example 
+1. 进入 `governance-routing-examples/src/main` 文件夹下，在 terminal 中输入以下命令构建并启动 service-provider-example 容器
 
    ```shell
    # 构建 docker 镜像
@@ -103,8 +136,6 @@
    # 可以去掉最后的 -d 参数，查看服务启动过程中的日志输出
    docker-compose -f docker-compose-service-provider.yml up
    ```
-
-
 
 2. 间隔一段时间之后（需要等待 docker 容器启动完成）本地机器访问 nacos 的控制台地址 (http://127.0.0.1:8848/nacos) 查看已经注册上线的 service-provider，其中包含四个服务实例。
 
@@ -290,7 +321,7 @@
 
 为了验证此场景，需要更改配置文件，取消区域亲和性路由配置。**执行 `docker-compose -f docker-compose-web-client-consumer.yml stop` 停止消费者容器。**
 
-在 `spring-cloud-alibaba-examples/governance-example/docker-compose-example-quickstart/label-routing-quickstart/label-routing-webClient-consumer-example/label-routing-feign-consumer-example/application-docker.yml` 文件中，注释区域亲和性路由配置：（Rest 和 WebClient 消费者同理）
+在 `governance-routing-docker/src/main/apps/web-client-consumer-example/feign-consumer-example/application-docker.yml` 文件中，注释区域亲和性路由配置：（Rest 和 WebClient 消费者同理）
 
 ```properties
     # label routing configuration
@@ -347,7 +378,7 @@ docker-compose -f docker-compose-web-client-consumer.yml stop
 
 ### 4.1 启动网关服务消费者容器
 
-1. 进入 `spring-cloud-alibaba\spring-cloud-alibaba-examples\governance-example\label-routing-example\docker-compose-quickstart\label-routing-quickstart` 文件夹下，执行以下命令启动请求客户端 example 应用容器；
+1. 进入 `governance-routing-docker/src/main` 文件夹下，执行以下命令启动网关客户端 example 应用容器；
 
    ```shell
    # 构建 docker 镜像
@@ -516,7 +547,7 @@ docker-compose -f docker-compose-web-client-consumer.yml stop
 
 为了验证此场景，需要更改配置文件，取消区域亲和性路由配置。**执行 `docker-compose -f docker-compose-gateway-consumer.yml stop` 停止消费者容器。**
 
-在 `spring-cloud-alibaba-examples/governance-example/docker-compose-example-quickstart/label-routing-quickstart/label-routing-gateway-consumer-example/label-routing-gateway-consumer-example\application-docker.yml` 文件中，注释区域亲和性路由配置：（Zuul 网关消费者同理）
+在 `governance-routing-docker/src/main/apps/gateway-consumer-example/gateway-consumer-example/application-docker.yml` 文件中，注释区域亲和性路由配置：（Zuul 网关消费者同理）
 
 ```properties
     # Regional affinity routing configuration

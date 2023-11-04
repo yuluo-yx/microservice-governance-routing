@@ -43,13 +43,13 @@
 			<!-- Starters -->
 			<dependency>
 				<groupId>indi.yuluo</groupId>
-				<artifactId>governanace-routing-xds-adapter</artifactId>
+				<artifactId>governance-routing-common</artifactId>
 				<version>${revision}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>indi.yuluo</groupId>
-				<artifactId>governance-routing-common</artifactId>
+				<artifactId>governance-routing-sdk-starter</artifactId>
 				<version>${revision}</version>
 			</dependency>
 
@@ -73,7 +73,7 @@
 
 			<dependency>
 				<groupId>indi.yuluo</groupId>
-				<artifactId>governance-routing-sdk-starter</artifactId>
+				<artifactId>governanace-routing-xds-adapter</artifactId>
 				<version>${revision}</version>
 			</dependency>
 

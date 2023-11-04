@@ -13,7 +13,6 @@
 
 	<artifactId>governance-routing-examples</artifactId>
 	<packaging>pom</packaging>
-	<version>${revision}</version>
 	<name>MicroService Governance Routing Examples</name>
 	<description>MicroService Governance Routing Examples</description>
 
@@ -25,5 +24,36 @@
 		<module>web-client-consumer-example</module>
 		<module>governance-istio-consumer-example</module>
 	</modules>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>${maven-deploy-plugin.version}</version>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+
+			<!--Exclude javadoc jars-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+
+			<!--Exclude sources jars-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<configuration>
+					<skipSource>true</skipSource>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>
