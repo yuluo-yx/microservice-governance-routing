@@ -1,4 +1,4 @@
-FROM openjdk:8-jdk-alpine as builder
+FROM registry.cn-hangzhou.aliyuncs.com/yuluo-yx/java-base:V20240116 as builder
 
 LABEL author="yuluo" \
 	email="1481556636@qq.com"
