@@ -8,6 +8,10 @@ target/
 .idea/jarRepositories.xml
 .idea/compiler.xml
 .idea/libraries/
+.idea/checkstyle-idea.xml
+.idea/vcs.xml
+.idea/misc.xml
+.idea/kubernetes-settings.xml
 *.iws
 *.iml
 *.ipr
