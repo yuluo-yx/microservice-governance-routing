@@ -20,6 +20,8 @@ services:
       - ${FEIGN_CONSUMER_PORT}
     ports:
       - ${FEIGN_CONSUMER_PORT}:${FEIGN_CONSUMER_PORT}
+    networks:
+      - label-routing
 
   # routing provider example
   routing-rest-consumer:
@@ -40,6 +42,8 @@ services:
       - ${REST_CONSUMER_PORT}
     ports:
       - ${REST_CONSUMER_PORT}:${REST_CONSUMER_PORT}
+    networks:
+      - label-routing
 
   # routing provider example
   routing-reactive-consumer:
@@ -60,3 +64,5 @@ services:
       - ${REACTIVE_CONSUMER_PORT}
     ports:
       - ${REACTIVE_CONSUMER_PORT}:${REACTIVE_CONSUMER_PORT}
+    networks:
+      - label-routing

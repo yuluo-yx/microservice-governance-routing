@@ -22,6 +22,8 @@ services:
       - ${GATEWAY_CONSUMER_PORT}
     ports:
       - ${GATEWAY_CONSUMER_PORT}:${GATEWAY_CONSUMER_PORT}
+    networks:
+      - label-routing
 
   # routing provider example
   routing-zuul-consumer:
@@ -44,3 +46,5 @@ services:
       - ${ZUUL_CONSUMER_PORT}
     ports:
       - ${ZUUL_CONSUMER_PORT}:${ZUUL_CONSUMER_PORT}
+    networks:
+      - label-routing
