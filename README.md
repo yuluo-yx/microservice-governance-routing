@@ -1,4 +1,4 @@
-# 基于云原生得微服务治理项目 主要功能为标签路由 
+# 基于 cloud native 的微服务治理-标签路由能力
 
 ## integrated-example
 
