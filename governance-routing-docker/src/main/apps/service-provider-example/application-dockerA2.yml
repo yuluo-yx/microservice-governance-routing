@@ -11,8 +11,21 @@ spring:
     nacos:
       discovery:
         server-addr: sca-label-routing-nacos-server:8848
+        username: 'nacos'
+        password: 'nacos'
         metadata:
           version: v2
           region: qa
           zone: zone2
 
+management:
+  server:
+    port: 30092
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health

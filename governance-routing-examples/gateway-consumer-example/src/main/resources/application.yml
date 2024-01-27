@@ -9,6 +9,8 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
+        username: 'nacos'
+        password: 'nacos'
 
     # Regional affinity routing configuration
     governance:
@@ -26,3 +28,15 @@ spring:
             - Path=/routing-service-provider/**
           filters:
             - StripPrefix=1
+
+management:
+  server:
+    port: 30001
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health

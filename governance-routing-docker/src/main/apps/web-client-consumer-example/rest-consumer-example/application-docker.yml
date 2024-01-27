@@ -1,12 +1,32 @@
-FROM openjdk:8-jdk-alpine as builder
+server:
+  port: 19097
 
-LABEL author="yuluo" \
-email="1481556636@qq.com"
+spring:
+  application:
+    name: rest-service-consumer
 
-ARG APP_HOME
+  cloud:
+    nacos:
+      discovery:
+        server-addr: sca-label-routing-nacos-server:8848
+        username: 'nacos'
+        password: 'nacos'
 
-VOLUME ${APP_HOME}
+    # label routing configuration
+    governance:
+      routing:
+        region: dev
+        zone: zone1
+      # rule: RandomRule
 
-WORKDIR ${APP_HOME}
-
-ENTRYPOINT ["java", "-jar", "app.jar", "--spring.profiles.active=docker"]
+management:
+  server:
+    port: 30097
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health

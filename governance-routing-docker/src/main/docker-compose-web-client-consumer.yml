@@ -18,8 +18,10 @@ services:
       - /etc/localtime:/etc/localtime
     expose:
       - ${FEIGN_CONSUMER_PORT}
+      - ${ACTUATOR_FEIGN_CONSUMER_PORT}
     ports:
       - ${FEIGN_CONSUMER_PORT}:${FEIGN_CONSUMER_PORT}
+      - ${ACTUATOR_FEIGN_CONSUMER_PORT}:${ACTUATOR_FEIGN_CONSUMER_PORT}
     networks:
       - label-routing
 
@@ -40,8 +42,10 @@ services:
       - /etc/localtime:/etc/localtime
     expose:
       - ${REST_CONSUMER_PORT}
+      - ${ACTUATOR_REST_CONSUMER_PORT}
     ports:
       - ${REST_CONSUMER_PORT}:${REST_CONSUMER_PORT}
+      - ${ACTUATOR_REST_CONSUMER_PORT}:${ACTUATOR_REST_CONSUMER_PORT}
     networks:
       - label-routing
 
@@ -62,7 +66,9 @@ services:
       - /etc/localtime:/etc/localtime
     expose:
       - ${REACTIVE_CONSUMER_PORT}
+      - ${ACTUATOR_REACTIVE_CONSUMER_PORT}
     ports:
       - ${REACTIVE_CONSUMER_PORT}:${REACTIVE_CONSUMER_PORT}
+      - ${ACTUATOR_REACTIVE_CONSUMER_PORT}:${ACTUATOR_REACTIVE_CONSUMER_PORT}
     networks:
       - label-routing

@@ -12,6 +12,8 @@ spring:
       discovery:
         fail-fast: true
         server-addr: 127.0.0.1:8848
+        username: 'nacos'
+        password: 'nacos'
 
     # label routing configuration
     governance:
@@ -19,3 +21,15 @@ spring:
         region: dev
         zone: zone1
       # rule: RandomRule
+
+management:
+  server:
+    port: 30001
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health

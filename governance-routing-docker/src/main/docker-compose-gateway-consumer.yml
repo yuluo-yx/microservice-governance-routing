@@ -20,8 +20,10 @@ services:
       - /etc/localtime:/etc/localtime
     expose:
       - ${GATEWAY_CONSUMER_PORT}
+      - ${ACTUATOR_GATEWAY_CONSUMER_PORT}
     ports:
       - ${GATEWAY_CONSUMER_PORT}:${GATEWAY_CONSUMER_PORT}
+      - ${ACTUATOR_GATEWAY_CONSUMER_PORT}:${ACTUATOR_GATEWAY_CONSUMER_PORT}
     networks:
       - label-routing
 
@@ -44,7 +46,9 @@ services:
       - /etc/localtime:/etc/localtime
     expose:
       - ${ZUUL_CONSUMER_PORT}
+      - ${ACTUATOR_ZUUL_CONSUMER_PORT}
     ports:
       - ${ZUUL_CONSUMER_PORT}:${ZUUL_CONSUMER_PORT}
+      - ${ACTUATOR_ZUUL_CONSUMER_PORT}:${ACTUATOR_ZUUL_CONSUMER_PORT}
     networks:
       - label-routing
