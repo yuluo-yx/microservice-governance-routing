@@ -1,42 +1,47 @@
-target/
+# Compiled class file
+*.class
+*.classpath
+*.factorypath
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
 !.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
 
-### IntelliJ IDEA ###
-.idea/modules.xml
-.idea/jarRepositories.xml
-.idea/compiler.xml
-.idea/libraries/
-.idea/checkstyle-idea.xml
-.idea/vcs.xml
-.idea/misc.xml
-.idea/kubernetes-settings.xml
-*.iws
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+# IDE Files #
 *.iml
-*.ipr
-
-### Eclipse ###
-.apt_generated
-.classpath
-.factorypath
+.idea
+.idea/
 .project
 .settings
-.springBeans
-.sts4-cache
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-### VS Code ###
-.vscode/
-
-### Mac OS ###
+target
 .DS_Store
+
+#Seata test data file
+sessionStore/
+
+# temp ignore
+*.cache
+*.diff
+*.patch
+*.tmp
+
+# Maven ignore
+.flattened-pom.xml
