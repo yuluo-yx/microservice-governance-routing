@@ -81,7 +81,7 @@
 
 ## 架构图
 
-![架构图](D:\毕业论文\microservice-governance-routing\microservice-governance-routing\governance-routing-docs\src\main\doc-zh\assets\img\架构图.png)
+![架构图](assets\img\架构图.png)
 
 # example 设计
 
