@@ -35,3 +35,34 @@
 > 综上所述，本论文的选题目的是基于Cloud Native的微服务治理，主要关注标签路由能力。通过实现标签路由和Istio治理规则的集成，可以提升微服务治理能力，实现serverless架构模式，并解决国内微服务治理中的问题和挑战。这将为企业提供更好的微服务治理支持，降低治理和运维成本，推动业务的敏捷发展。
 
 > 微服务架构是一种将应用程序拆分为较小、自治的服务单元的软件开发方法。随着云计算和容器技术的兴起，微服务架构得到了广泛应用。然而，微服务架构也带来了一系列的挑战，如服务的高可用性、负载均衡、故障转移和容错处理等。因此，微服务治理成为了微服务架构中的重要问题。本论文将使用 Spring Cloud Alibaba 作为基础，结合 Ribbon 组件来实现标签路由能力。通过在客户端中嵌入负载均衡算法和服务发现机制，可以根据一定的规则将请求分发到不同的服务实例上，实现服务的高可用和性能优化。将介绍标签路由的实现原理和常见的负载均衡策略，如轮询、随机和加权轮询等。为微服务的标签路由模块提供解决方案。
+
+## 实现方法和创新点
+
+现在清楚以下内容：
+
+实现方法，通过学习 Dubbo 和 Nepxion 服务治理相关和代码，查阅 Istio 相关服务治理规则。采用国内最流行的微服务开发框架 Spring Cloud Alibaba 为基础组件，使用 Ribbon 作为负载均衡工具，结合 Nacos 注册中心。完成标签路由能力。国内微服务治理方案尚不成熟，通过这一方案可以有效解决微服务治理过程中的流量治理难题。为小微企业服务治理提供解决方案，减少对网关等中间件的依赖。
+
+创新点：
+
+1. 基于 Spring Cloud Alibaba 2.2.x；
+2. 结合 Nacos 注册中心；
+3. 结合负载均衡组件，在消费者端提供客户端负载均衡能力；
+4. 结合云原生技术，适配 Istio 这一 Service Mesh 框架的治理规则。
+
+请根据以上内容写出毕业论文中开题报告的实现方式和创新点，以及 预期成果
+
+> 本论文的预期成果是实现一个基于Spring Cloud Alibaba的微服务治理方案，具备标签路由能力。通过该方案，可以为小微企业的微服务治理提供解决方案，减少对网关等中间件的依赖，提高微服务架构的可用性和扩展性。同时，通过结合云原生技术和适配Istio的治理规则，可以实现更细粒度的流量控制和管理，提升服务的稳定性和性能。该方案的预期成果将在实际部署和测试中得到验证，并通过性能评估和实验结果进行评价和分析，以验证其可行性和有效性
+
+## 参考文献
+
+1. Yin, H., & Zhang, X. (2019). Research on Microservice Governance Based on Spring Cloud. In 2019 3rd International Conference on Computer Science and Artificial Intelligence (CSAI) (pp. 620-623). IEEE.
+   该文献介绍了基于Spring Cloud的微服务治理研究，可以为实现方案提供相关的理论和方法。
+2. Xie, Y., Luo, Z., & Chen, C. (2019). Design and implementation of microservice governance system based on Spring Cloud. In 2019 IEEE International Conference on Big Data, Cloud Computing, Data Science & Engineering (BCD) (pp. 169-172). IEEE.
+   该文献介绍了基于Spring Cloud的微服务治理系统的设计与实现，可以提供实际案例和经验分享。
+3. Shang, B., & Liu, X. (2019). A Microservice Architecture for Traffic Flow Monitoring System Based on Spring Cloud. In 2019 International Conference on Network Infrastructure and Digital Content (IC-NIDC) (pp. 98-102). IEEE.
+   该文献介绍了基于Spring Cloud的微服务架构在交通流量监控系统中的应用，可以为流量治理方面的实现提供参考。
+4. 谭龙, & 杨仕明. (2019). 基于Spring Cloud的微服务架构的设计与实现. 计算机应用与软件, 36(5), 244-248.
+   该文献详细介绍了基于Spring Cloud的微服务架构的设计与实现过程，可以为方案的实践提供参考。
+5. 李广凯, & 郭勇. (2019). 基于Spring Cloud的微服务框架研究与实现. 计算机工程与应用, 55(9), 194-197.
+6. 张翔, & 林锦宏. (2019). 基于Kubernetes和Istio的云原生微服务架构研究. 计算机与数字工程, 47(7), 1176-1181
+7. 于海峰, & 张志超. (2020). 基于Istio的Service Mesh技术研究与应用. 计算机工程与应用, 56(17), 196-201
