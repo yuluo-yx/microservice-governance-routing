@@ -33,7 +33,7 @@
 	<dependencyManagement>
 		<dependencies>
 
-			<!--Nacos-->
+			<!-- Nacos -->
 			<dependency>
 				<groupId>com.alibaba.nacos</groupId>
 				<artifactId>nacos-client</artifactId>
@@ -47,6 +47,14 @@
 				<version>${revision}</version>
 			</dependency>
 
+			<!-- Spring Context -->
+			<dependency>
+				<groupId>com.alibaba.spring</groupId>
+				<artifactId>spring-context-support</artifactId>
+				<version>${spring.context.support.version}</version>
+			</dependency>
+
+			<!-- Owner Starters dependencies-->
 			<dependency>
 				<groupId>indi.yuluo</groupId>
 				<artifactId>governance-routing-sdk-starter</artifactId>
@@ -75,12 +83,6 @@
 				<groupId>indi.yuluo</groupId>
 				<artifactId>governanace-routing-xds-adapter</artifactId>
 				<version>${revision}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>com.alibaba.spring</groupId>
-				<artifactId>spring-context-support</artifactId>
-				<version>${spring.context.support.version}</version>
 			</dependency>
 
 		</dependencies>
